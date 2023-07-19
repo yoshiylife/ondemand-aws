@@ -1,0 +1,53 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "sns:Publish",
+                "ec2:StartInstances",
+                "ec2:StopInstances"
+            ],
+            "Resource": [
+                "arn:aws:sns:REGION:OWNER:*",
+                "arn:aws:ec2:REGION:OWNER:instance/i-*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:DescribeSecurityGroupRules",
+                "ec2:DescribeTags",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeInstanceStatus"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "ec2:RevokeSecurityGroupIngress",
+                "ec2:AuthorizeSecurityGroupEgress",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CreateTags",
+                "ec2:RevokeSecurityGroupEgress"
+            ],
+            "Resource": [
+                "arn:aws:ec2:REGION:OWNER:security-group-rule/*",
+                "arn:aws:ec2:REGION:OWNER:security-group/*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": "ssm:StartSession",
+            "Resource": [
+                "arn:aws:ec2:REGION:OWNER:instance/*",
+                "arn:aws:ssm:REGION:*:document/AWS-StartSSHSession"
+            ]
+        }
+    ]
+}
