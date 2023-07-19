@@ -1,0 +1,8 @@
+# Example of .ssh/config
+Host    test
+HostName        aws_ec2_instance_id
+IdentityFile ~/.ssh/aws_ec2_instance_identity_file.pem
+User    ec2-user
+ProxyCommand bash ~/ondemand-connect.sh %h %p
+StrictHostKeyChecking no
+# End of file.
