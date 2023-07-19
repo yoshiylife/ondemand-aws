@@ -24,7 +24,7 @@ intime=$(date +$"%Y-%m-%d %T" --date $"-$max_startup_time seconds") # Time expec
 
 # Check if an SSH connection exists.
 count=$(ps -e -o command | grep '^sshd: ' | wc -l)
-[[ $"$?" -ne 0 || $"$count" -gt 0 ]] && exit 0; #echo "Skip the instance stop because sessions exist."
+[[ $"$?" -ne 0 || $"$count" -gt 1 ]] && exit 0; #echo "Skip the instance stop because sessions exist."
 
 #
 # Cleanup security group rules
