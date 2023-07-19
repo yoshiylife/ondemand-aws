@@ -93,7 +93,7 @@ case "$InstanceStatus" in
 esac
 
 # Set security groups
-query=$"SecurityGroupRules[?GroupId==\`$sgid\` && CidrIpv4==\`$ipaddress/32\` && contains(Description,\`ondemand-$host-\`)].SecurityGroupRuleId"
+query=$"SecurityGroupRules[?GroupId==\`$sgid\` && CidrIpv4==\`$ipaddress/32\` && contains(Description,\`ondemand-$host-sg\`)].SecurityGroupRuleId"
 output=$(aws ec2 describe-security-group-rules --query $"$query" --output text ${3:+--profile $"$aws_profile"})
 check $"ec2 describe-security-group-rules" $"$output"
 if [[ -z $"$output" ]]; then
@@ -101,7 +101,7 @@ if [[ -z $"$output" ]]; then
     auth_ingress=$"IpProtocol=tcp,FromPort=443,ToPort=443,IpRanges=[{CidrIp=$ipaddress/32,Description=$host-ondemand}]"
     output=$(aws ec2 authorize-security-group-ingress --group-id $"$sgid" --ip-permissions $"$auth_ingress" --tag-specifications $"$tags" ${3:+--profile $"$aws_profile"})
     check $"ec2 authorize-security-group-ingress" $"$output"
-    auth_egress=$"IpProtocol=-1,FromPort=-1,ToPort=-1,IpRanges=[{CidrIp=$ipaddress/32,Description=ondemand-$host-}]"
+    auth_egress=$"IpProtocol=-1,FromPort=-1,ToPort=-1,IpRanges=[{CidrIp=$ipaddress/32,Description=ondemand-$host-sg}]"
     output=$(aws ec2 authorize-security-group-egress --group-id $"$sgid" --ip-permissions $"$auth_egress" --tag-specifications $"$tags" ${3:+--profile $"$aws_profile"})
     check $"ec2 authorize-security-group-egress" $"$output"
 fi
