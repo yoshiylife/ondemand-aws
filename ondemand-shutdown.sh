@@ -41,7 +41,7 @@ keyword=$"$hostname-ondemand"
 
 aws ec2 describe-security-groups --query $"SecurityGroups[?GroupName==\`$sgname\`].GroupId" --output text | while read sgid
 do
-	query=$"SecurityGroupRules[? GroupId==\`$sgid\` && Tags[? Key==\`Name\` && Value==\`$keyword\`] && Description==\`$keyword\`].[IsEgress,SecurityGroupRuleId]"
+	query=$"SecurityGroupRules[? GroupId==\`$sgid\` && Tags[? Key==\`Name\` && Value==\`$keyword\`]].[IsEgress,SecurityGroupRuleId]"
 	aws ec2 describe-security-group-rules --query $"$query" --output text ${3:+--profile $"$aws_profile"} | while read is_egress sgrid
 	do
 		security_gid_rid=$"--group-id $sgid --security-group-rule-ids $sgrid --output text"
